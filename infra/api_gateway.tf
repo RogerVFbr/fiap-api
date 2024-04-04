@@ -59,6 +59,8 @@ resource "aws_apigatewayv2_stage" "lambda" {
 #  integration_uri    = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${aws_lambda_function.fiap_api.arn}/invocations"
 #}
 
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/apigatewayv2_route
+
 resource "aws_apigatewayv2_integration" "lambda" {
   api_id           = aws_apigatewayv2_api.lambda.id
   integration_type = "AWS_PROXY"
