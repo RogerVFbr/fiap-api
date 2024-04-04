@@ -37,6 +37,7 @@ jobs:
         run: terraform plan -var 'environment=develop' -input=false
 
       - name: Create Pull Request to Develop
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: develop
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST_BRANCH: "develop"
