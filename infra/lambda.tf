@@ -4,15 +4,15 @@ locals {
   media_lambda_name = "fiap-api-${var.environment}"
 }
 
-resource "aws_cloudwatch_log_group" "media_lambda_log_group" {
+resource "aws_cloudwatch_log_group" "fiap_api" {
   name = "/aws/lambda/${local.media_lambda_name}"
   retention_in_days = 7
 }
 
-resource "aws_lambda_function" "image_post_lambda_container" {
+resource "aws_lambda_function" "fiap_api" {
   depends_on = [
     null_resource.ecr_image,
-    aws_cloudwatch_log_group.media_lambda_log_group
+    aws_cloudwatch_log_group.fiap_api
   ]
   function_name = local.media_lambda_name
   role = aws_iam_role.fiap_api.arn
@@ -31,9 +31,11 @@ resource "aws_lambda_function" "image_post_lambda_container" {
   }
 }
 
-#resource "aws_lambda_permission" "image_post_lambda_events" {
-#  statement_id = "AllowExecutionFromEventbridgeScheduler"
-#  action = "lambda:InvokeFunction"
-#  function_name = aws_lambda_function.image_post_lambda_container.function_name
-#  principal = "scheduler.amazonaws.com"
-#}
+resource "aws_lambda_permission" "api_gw" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.fiap_api.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_apigatewayv2_api.lambda.execution_arn}/*/*"
+}
