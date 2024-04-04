@@ -56,7 +56,7 @@ resource "aws_apigatewayv2_integration" "lambda" {
   integration_type = "HTTP_PROXY"
   integration_method = "ANY"
 #  integration_uri    = aws_lambda_function.fiap_api.invoke_arn
-  integration_uri    = 'arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${aws_lambda_function.fiap_api.arn}/invocations'
+  integration_uri    = "arn:aws:apigateway:${local.region}:lambda:path/2015-03-31/functions/${aws_lambda_function.fiap_api.arn}/invocations"
 }
 
 resource "aws_apigatewayv2_route" "example" {
