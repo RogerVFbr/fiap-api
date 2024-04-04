@@ -19,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging_${var.environment}"
+  name        = "fiap_api_lambda_logging_${var.environment}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
 
@@ -47,7 +47,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 }
 
 #resource "aws_iam_policy" "lambda_s3" {
-#  name        = "lambda_s3_${var.environment}"
+#  name        = "fiap_api_lambda_s3_${var.environment}"
 #  path        = "/"
 #  description = "IAM policy for reading/writing to S3 from a lambda"
 #
@@ -78,7 +78,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 #}
 
 resource "aws_iam_policy" "lambda_parameter_store" {
-  name        = "lambda_parameter_store_${var.environment}"
+  name        = "fiap_api_lambda_parameter_store_${var.environment}"
   path        = "/"
   description = "IAM policy for reading from Parameter Store from a lambda"
 
