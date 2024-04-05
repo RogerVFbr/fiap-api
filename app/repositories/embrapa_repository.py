@@ -1,6 +1,8 @@
 import pandas as pd
+from functools import lru_cache
 
 
+# noinspection PyBroadException
 class EmbrapaRepository:
 
     def __init__(self):
@@ -8,14 +10,17 @@ class EmbrapaRepository:
         pd.set_option("expand.frame_repr", False)
         pd.set_option("display.max_colwidth", None)
 
+    @lru_cache(maxsize=None)
     def get_all_producao(self):
         df = pd.read_csv('data/producao.csv', sep=";")
         return self.__parse_df_as_dict(df)
 
+    @lru_cache(maxsize=None)
     def get_all_processamento(self):
         df = pd.read_csv('data/processamento.csv', sep="\\s+", usecols=[*range(56)])
         return self.__parse_df_as_dict(df)
 
+    @lru_cache(maxsize=None)
     def get_all_comercializacao(self):
         df = pd.read_csv('data/comercializacao.csv', sep=";", header=None)
         columns_names = ["id", "produto_discard", "produto"]
@@ -26,6 +31,7 @@ class EmbrapaRepository:
         df['produto'] = df['produto'].apply(lambda x: x.strip())
         return self.__parse_df_as_dict(df)
 
+    @lru_cache(maxsize=None)
     def get_all_importacao(self):
         dfs = []
 
@@ -51,6 +57,7 @@ class EmbrapaRepository:
         dfs.append(df_suco)
 
         df = pd.concat(dfs, ignore_index=True)
+        df.rename(columns={'Id': 'id', 'Categoria': 'categoria', 'País': 'pais'}, inplace=True)
 
         df_qtd = df.drop(df.filter(regex='\\.1').columns, axis=1)
         data_qtd = self.__parse_df_as_dict(df_qtd)
@@ -64,6 +71,7 @@ class EmbrapaRepository:
 
         return [{**x[0], **x[1]} for x in zip(data_qtd, data_vlr)]
 
+    @lru_cache(maxsize=None)
     def get_all_exportacao(self):
         dfs = []
 
@@ -84,6 +92,7 @@ class EmbrapaRepository:
         dfs.append(df_suco)
 
         df = pd.concat(dfs, ignore_index=True)
+        df.rename(columns={'Id': 'id', 'Categoria': 'categoria', 'País': 'pais'}, inplace=True)
 
         df_qtd = df.drop(df.filter(regex='\\.1').columns, axis=1)
         data_qtd = self.__parse_df_as_dict(df_qtd)
@@ -97,8 +106,7 @@ class EmbrapaRepository:
 
         return [{**x[0], **x[1]} for x in zip(data_qtd, data_vlr)]
 
-    @staticmethod
-    def __parse_df_as_dict(df: pd.DataFrame) -> dict:
+    def __parse_df_as_dict(self, df: pd.DataFrame) -> dict:
         # print(df.columns)
         # print(len(df.columns))
         # print(df.head())
@@ -113,11 +121,18 @@ class EmbrapaRepository:
                 if key.isnumeric():
                     if "historico" not in entry:
                         entry["historico"] = {}
-                    entry["historico"][key] = value
+                    entry["historico"][key] = self.__convert_to_int(value)
                 else:
                     entry[key] = value
 
             data.append(entry)
 
         return data
+
+    @staticmethod
+    def __convert_to_int(value):
+        try:
+            return int(value)
+        except:
+            return None
 

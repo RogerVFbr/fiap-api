@@ -1,35 +1,20 @@
-from flask import (Flask, jsonify)
+from flask import Flask
+from flask_smorest import Api
 
-from repositories.embrapa_repository import EmbrapaRepository
-from services.embrapa_service import EmbrapaService
+from controllers.embrapa_controllers import embrapa_controller
 
 app = Flask(__name__)
 
-repo = EmbrapaRepository()
-service = EmbrapaService(repo)
+app.config["PROPAGATE_EXCEPTIONS"] = True
+app.config["API_TITLE"] = "Embrapa API"
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
+app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 
+api = Api(app)
 
-@app.get('/producao')
-def get_all_producao():
-    return jsonify(status=200, message='producao', payload=service.get_all_producao())
+api.register_blueprint(embrapa_controller)
 
-
-@app.get('/processamento')
-def get_all_processamento():
-    return jsonify(status=200, message='processamento', payload=service.get_all_processamento())
-
-
-@app.get('/comercializacao')
-def get_all_comercializacao():
-    return jsonify(status=200, message='comercializacao', payload=service.get_all_comercializacao())
-
-
-@app.get('/importacao')
-def get_all_importacao():
-    return jsonify(status=200, message='importacao', payload=service.get_all_importacao())
-
-
-@app.get('/exportacao')
-def get_all_exportacao():
-    return jsonify(status=200, message='exportacao', payload=service.get_all_exportacao())
 
