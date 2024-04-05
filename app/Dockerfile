@@ -1,3 +1,5 @@
+# https://gallery.ecr.aws/docker/library/python
+
 # FROM public.ecr.aws/docker/library/python:3.12.1-slim
 # FROM public.ecr.aws/docker/library/python:3.11.6-bookworm
 FROM public.ecr.aws/docker/library/python:3.11.6-slim
