@@ -16,7 +16,7 @@ embrapa_controller = Blueprint("EmbrapaController", __name__, description="Embra
 class ProducaoCollection(MethodView):
     @embrapa_controller.response(200, ProducaoResponseSchema(many=True))
     def get(self):
-        return jsonify(status=200, message='producao', payload=service.get_all_producao())
+        return service.get_all_producao()
 
 
 @embrapa_controller.route("/processamento")
