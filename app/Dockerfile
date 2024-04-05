@@ -3,8 +3,8 @@ COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.1 /lambda-adapter /opt
 WORKDIR /var/task
 COPY . ./
 
-RUN python -m ensurepip --upgrade
 RUN python -m pip install --upgrade setuptools
+RUN python -m ensurepip --upgrade
 
 
 RUN python -m pip install -r requirements.txt
