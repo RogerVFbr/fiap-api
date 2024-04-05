@@ -1,10 +1,12 @@
 from flask import (Flask, jsonify)
 
-from services.vitivinicultura_service import VitiviniculturaService
+from repositories.embrapa_repository import EmbrapaRepository
+from services.embrapa_service import EmbrapaService
 
 app = Flask(__name__)
 
-service = VitiviniculturaService()
+repo = EmbrapaRepository()
+service = EmbrapaService(repo)
 
 
 @app.get('/producao')
