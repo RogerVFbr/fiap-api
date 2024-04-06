@@ -26,6 +26,7 @@ resource "aws_api_gateway_method" "request_method" {
 #  authorization = "COGNITO_USER_POOLS"
 #  authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
 #  authorization_scopes = toset(aws_cognito_resource_server.this.scope_identifiers)
+  authorization_scopes = aws_cognito_resource_server.this.scope_identifiers
 
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
