@@ -21,8 +21,18 @@ resource "aws_api_gateway_method" "request_method" {
   http_method   = "ANY"
 
 #  authorization = "NONE"
+
+
+#  authorization = "COGNITO_USER_POOLS"
+#  authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
+#  authorization_scopes = toset(aws_cognito_resource_server.this.scope_identifiers)
+
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
+
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
 }
 
 resource "aws_api_gateway_integration" "request_integration" {
