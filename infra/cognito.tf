@@ -1,16 +1,21 @@
 locals {
-  pool_name = "fiap-user-pool"
+  pool_name            = "fiap-user-pool"
+  domain_name          = "fiap-api-${var.environment}"
   resource_server_name = "fiap-resource-server"
-  resource_server_id = "https://fiap-api-${var.environment}.resource-server.com"
+  resource_server_id   = "https://fiap-api-${var.environment}.resource-server.com"
 }
 
-resource "aws_cognito_user_pool" "pool" {
+resource "aws_cognito_user_pool" "this" {
   name = local.pool_name
 }
 
 resource "aws_cognito_resource_server" "resource" {
-  identifier = local.resource_server_id
-  name       = local.resource_server_name
+  identifier   = local.resource_server_id
+  name         = local.resource_server_name
+  user_pool_id = aws_cognito_user_pool.this.id
+}
 
-  user_pool_id = aws_cognito_user_pool.pool.id
+resource "aws_cognito_user_pool_domain" "main" {
+  domain       = local.domain_name
+  user_pool_id = aws_cognito_user_pool.this.id
 }
