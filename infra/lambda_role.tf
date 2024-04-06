@@ -1,6 +1,5 @@
 resource "aws_iam_role" "fiap_api" {
-  name = "RoleforFiapApiLambda-${var.environment}"
-
+  name               = "RoleforFiapApiLambda-${var.environment}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -22,8 +21,7 @@ resource "aws_iam_policy" "lambda_logging" {
   name        = "fiap_api_lambda_logging_${var.environment}"
   path        = "/"
   description = "IAM policy for logging from a lambda"
-
-  policy = <<EOF
+  policy      = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -81,8 +79,7 @@ resource "aws_iam_policy" "lambda_parameter_store" {
   name        = "fiap_api_lambda_parameter_store_${var.environment}"
   path        = "/"
   description = "IAM policy for reading from Parameter Store from a lambda"
-
-  policy = <<EOF
+  policy      = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [

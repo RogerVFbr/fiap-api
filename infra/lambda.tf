@@ -5,7 +5,7 @@ locals {
 }
 
 resource "aws_cloudwatch_log_group" "fiap_api" {
-  name = "/aws/lambda/${local.media_lambda_name}"
+  name              = "/aws/lambda/${local.media_lambda_name}"
   retention_in_days = 7
 }
 
@@ -15,34 +15,30 @@ resource "aws_lambda_function" "fiap_api" {
     aws_cloudwatch_log_group.fiap_api
   ]
   function_name = local.media_lambda_name
-  role = aws_iam_role.fiap_api.arn
-  kms_key_arn = aws_kms_key.fiap_api.arn
-  timeout = 5
-  memory_size = "1024"
-  description = "FIAP Api Lambda"
-  image_uri = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
-  package_type = "Image"
+  role          = aws_iam_role.fiap_api.arn
+  kms_key_arn   = aws_kms_key.fiap_api.arn
+  timeout       = 5
+  memory_size   = "512"
+  description   = "FIAP Api Lambda"
+  image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
+  package_type  = "Image"
 
   environment {
     variables = {
-      IS_LOCAL = "false"
+      IS_LOCAL    = "false"
       ENVIRONMENT = var.environment
     }
   }
 }
 
 
-# API Permissions
 resource "aws_lambda_permission" "allow_api_gateway" {
   function_name = aws_lambda_function.fiap_api.function_name
   statement_id  = "AllowExecutionFromApiGateway"
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
-
-  source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
-
-  depends_on = [
-    aws_api_gateway_rest_api.api,
-    aws_api_gateway_resource.proxy,
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
+  depends_on    = [
+    aws_api_gateway_resource.proxy
   ]
 }

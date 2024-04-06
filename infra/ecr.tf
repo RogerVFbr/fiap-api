@@ -1,7 +1,7 @@
 locals {
   ecr_repository_name = "fiap-repo-${var.environment}"
   ecr_image_tag       = "latest"
-  app_dir = "../app"
+  app_dir             = "../app"
 }
 
 resource "aws_ecr_repository" "repo" {
@@ -10,8 +10,7 @@ resource "aws_ecr_repository" "repo" {
 
 resource "aws_ecr_lifecycle_policy" "policy" {
   repository = aws_ecr_repository.repo.name
-
-  policy = <<EOF
+  policy     = <<EOF
 {
     "rules": [
         {
@@ -33,7 +32,7 @@ EOF
 
 data "archive_file" "init" {
   type        = "zip"
-  source_dir = local.app_dir
+  source_dir  = local.app_dir
   output_path = "application_zip_for_hashing.zip"
 }
 
@@ -53,7 +52,7 @@ resource "null_resource" "ecr_image" {
 }
 
 data "aws_ecr_image" "lambda_image" {
-  depends_on = [
+  depends_on      = [
     null_resource.ecr_image
   ]
   repository_name = local.ecr_repository_name
