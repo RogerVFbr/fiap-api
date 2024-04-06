@@ -1,6 +1,5 @@
-from flask import request, jsonify
 from flask.views import MethodView
-from flask_smorest import Blueprint, abort
+from flask_smorest import Blueprint
 
 from crosscutting.dependency_injection import service
 from models.comercializacao_response_schema import ComercializacaoResponseSchema
