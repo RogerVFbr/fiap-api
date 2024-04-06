@@ -23,6 +23,7 @@ resource "aws_api_gateway_method" "request_method" {
 #  authorization = "NONE"
   authorization = "COGNITO_USER_POOLS"
   authorizer_id = aws_api_gateway_authorizer.api_authorizer.id
+  authorization_scopes = [aws_cognito_resource_server.this.scope_identifiers]
 }
 
 resource "aws_api_gateway_integration" "request_integration" {
