@@ -2,8 +2,11 @@ from flask import Flask
 from flask_smorest import Api
 
 from controllers.embrapa_controllers import embrapa_controller
+from di_container import DiContainer
 
+container = DiContainer()
 app = Flask(__name__)
+app.container = container
 
 app.config["PROPAGATE_EXCEPTIONS"] = True
 app.config["API_TITLE"] = "Embrapa API"
