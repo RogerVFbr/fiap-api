@@ -18,7 +18,7 @@ resource "aws_lambda_function" "fiap_api" {
   role          = aws_iam_role.fiap_api.arn
   kms_key_arn   = aws_kms_key.fiap_api.arn
   timeout       = 5
-  memory_size   = "512"
+  memory_size   = "1024"
   description   = "FIAP Api Lambda"
   image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
   package_type  = "Image"
