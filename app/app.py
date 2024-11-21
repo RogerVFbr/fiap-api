@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_smorest import Api
 
+from controllers.inference_controllers import inference_controller
 from controllers.embrapa_controllers import embrapa_controller
 from di_container import DiContainer
 
@@ -19,5 +20,6 @@ app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-
 api = Api(app)
 
 api.register_blueprint(embrapa_controller)
+api.register_blueprint(inference_controller)
 
 
