@@ -27,6 +27,7 @@ resource "aws_lambda_function" "fiap_api" {
     variables = {
       IS_LOCAL    = "false"
       ENVIRONMENT = var.environment
+      BUCKET_NAME = "${bucket_name}-${var.environment}"
     }
   }
 }
