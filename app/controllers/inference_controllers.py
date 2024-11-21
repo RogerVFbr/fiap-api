@@ -22,3 +22,8 @@ def post_infer(body, query, service: InferenceService = Provide[DiContainer.infe
         "model_id": query.get("id"),
         "output": service.infer(query.get("name"), query.get("id"), body.get('data'))
     })
+
+@inference_controller.route("/warmup")
+@inference_controller.response(200)
+def get_warmup():
+    return ""
