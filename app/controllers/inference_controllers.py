@@ -20,6 +20,5 @@ def post_infer(body, query, service: InferenceService = Provide[DiContainer.infe
     return InferenceResponseSchema().load({
         "model_name": query.get("name"),
         "model_id": query.get("id"),
-        "input": body.get('data'),
         "output": service.infer(query.get("name"), query.get("id"), body.get('data'))
     })
