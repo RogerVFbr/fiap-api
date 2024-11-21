@@ -17,8 +17,8 @@ resource "aws_lambda_function" "fiap_api" {
   function_name = local.media_lambda_name
   role          = aws_iam_role.fiap_api.arn
   kms_key_arn   = aws_kms_key.fiap_api.arn
-  timeout       = 5
-  memory_size   = "1024"
+  timeout       = 30
+  memory_size   = "2048"
   description   = "FIAP Api Lambda"
   image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
   package_type  = "Image"
@@ -31,7 +31,6 @@ resource "aws_lambda_function" "fiap_api" {
     }
   }
 }
-
 
 resource "aws_lambda_permission" "allow_api_gateway" {
   function_name = aws_lambda_function.fiap_api.function_name

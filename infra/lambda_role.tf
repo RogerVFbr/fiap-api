@@ -1,3 +1,7 @@
+locals{
+  bucket = "${var.bucket_name}-${var.environment}"
+}
+
 resource "aws_iam_role" "fiap_api" {
   name               = "RoleforFiapApiLambda-${var.environment}"
   assume_role_policy = <<EOF
@@ -44,36 +48,36 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   policy_arn = aws_iam_policy.lambda_logging.arn
 }
 
-#resource "aws_iam_policy" "lambda_s3" {
-#  name        = "fiap_api_lambda_s3_${var.environment}"
-#  path        = "/"
-#  description = "IAM policy for reading/writing to S3 from a lambda"
-#
-#  policy = <<EOF
-#{
-#    "Version": "2012-10-17",
-#    "Statement": [
-#        {
-#            "Sid": "ListObjectsInBucket",
-#            "Effect": "Allow",
-#            "Action": "s3:ListBucket",
-#            "Resource": "arn:aws:s3:::${var.data_bucket_name}"
-#        },
-#        {
-#            "Sid": "AllObjectActions",
-#            "Effect": "Allow",
-#            "Action": "s3:*Object",
-#            "Resource": "arn:aws:s3:::${var.data_bucket_name}/*"
-#        }
-#    ]
-#}
-#EOF
-#}
-#
-#resource "aws_iam_role_policy_attachment" "lambda_s3" {
-#  role       = aws_iam_role.fiap_api.name
-#  policy_arn = aws_iam_policy.lambda_s3.arn
-#}
+resource "aws_iam_policy" "lambda_s3" {
+ name        = "fiap_api_lambda_s3_${var.environment}"
+ path        = "/"
+ description = "IAM policy for reading/writing to S3 from a lambda"
+
+ policy = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Sid": "ListObjectsInBucket",
+           "Effect": "Allow",
+           "Action": "s3:ListBucket",
+           "Resource": "arn:aws:s3:::${local.bucket}"
+       },
+       {
+           "Sid": "AllObjectActions",
+           "Effect": "Allow",
+           "Action": "s3:*Object",
+           "Resource": "arn:aws:s3:::${local.bucket}/*"
+       }
+   ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_s3" {
+ role       = aws_iam_role.fiap_api.name
+ policy_arn = aws_iam_policy.lambda_s3.arn
+}
 
 resource "aws_iam_policy" "lambda_parameter_store" {
   name        = "fiap_api_lambda_parameter_store_${var.environment}"
