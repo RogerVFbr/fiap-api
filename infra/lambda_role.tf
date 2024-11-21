@@ -1,3 +1,7 @@
+locals{
+  bucket = "${var.bucket_name}-${var.environment}"
+}
+
 resource "aws_iam_role" "fiap_api" {
   name               = "RoleforFiapApiLambda-${var.environment}"
   assume_role_policy = <<EOF
@@ -57,13 +61,13 @@ resource "aws_iam_policy" "lambda_s3" {
            "Sid": "ListObjectsInBucket",
            "Effect": "Allow",
            "Action": "s3:ListBucket",
-           "Resource": "arn:aws:s3:::${var.data_bucket_name}"
+           "Resource": "arn:aws:s3:::${local.bucket}"
        },
        {
            "Sid": "AllObjectActions",
            "Effect": "Allow",
            "Action": "s3:*Object",
-           "Resource": "arn:aws:s3:::${var.data_bucket_name}/*"
+           "Resource": "arn:aws:s3:::${local.bucket}/*"
        }
    ]
 }
