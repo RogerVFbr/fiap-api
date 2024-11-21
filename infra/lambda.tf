@@ -32,7 +32,6 @@ resource "aws_lambda_function" "fiap_api" {
   }
 }
 
-
 resource "aws_lambda_permission" "allow_api_gateway" {
   function_name = aws_lambda_function.fiap_api.function_name
   statement_id  = "AllowExecutionFromApiGateway"
