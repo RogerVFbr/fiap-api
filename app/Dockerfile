@@ -6,6 +6,8 @@ COPY . ./
 RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu && \
     rm -rf /var/lib/apt/lists/*
 
-CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
+# Remover
+EXPOSE 8080
 
+CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
 
