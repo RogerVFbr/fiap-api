@@ -41,7 +41,7 @@ resource "aws_api_gateway_integration" "request_integration" {
   resource_id             = aws_api_gateway_method.request_method.resource_id
   http_method             = aws_api_gateway_method.request_method.http_method
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.fiap_api.invoke_arn
+  uri                     = aws_lambda_alias.this.invoke_arn
   integration_http_method = "POST"
 }
 

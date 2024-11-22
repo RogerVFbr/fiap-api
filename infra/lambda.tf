@@ -22,6 +22,7 @@ resource "aws_lambda_function" "fiap_api" {
   description   = "FIAP Api Lambda"
   image_uri     = "${aws_ecr_repository.repo.repository_url}@${data.aws_ecr_image.lambda_image.id}"
   package_type  = "Image"
+  publish       = true
 
   environment {
     variables = {
@@ -33,12 +34,20 @@ resource "aws_lambda_function" "fiap_api" {
   }
 }
 
+resource "aws_lambda_alias" "this" {
+  name             = var.environment
+  description      = "Alias for SnapStart"
+  function_name    = aws_lambda_function.fiap_api.function_name
+  function_version = aws_lambda_function.fiap_api.version
+}
+
 resource "aws_lambda_permission" "allow_api_gateway" {
   function_name = aws_lambda_function.fiap_api.function_name
   statement_id  = "AllowExecutionFromApiGateway"
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
+  qualifier     = aws_lambda_alias.this.name
   depends_on    = [
     aws_api_gateway_resource.proxy
   ]
