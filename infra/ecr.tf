@@ -57,7 +57,7 @@ resource "null_resource" "ecr_image" {
       echo "Building image ..."
       docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
       echo "Slim build ..."
-      slim build --http-probe=false --include-workdir=true --include-path /usr/local --tag ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
+      slim build --show-clogs --show-blogs --http-probe-cmd=GET:/warmup --include-workdir=true --include-path /usr/local --tag ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
       docker image ls
       echo "Pushing image ..."
       docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag}
