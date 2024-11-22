@@ -42,4 +42,3 @@ COPY . .
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
 CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
-
