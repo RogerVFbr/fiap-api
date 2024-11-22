@@ -55,6 +55,7 @@ jobs:
         sudo apt install curl
         curl --version
         curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/master/scripts/install-slim.sh | sudo -E bash -
+        slim --version
 
     - name: Terraform Init
       run: terraform init -backend-config="key=$APPLICATON_NAME-${{ steps.extract_branch.outputs.branch }}.tfstate"
