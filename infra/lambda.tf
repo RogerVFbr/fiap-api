@@ -24,6 +24,10 @@ resource "aws_lambda_function" "fiap_api" {
   package_type  = "Image"
   publish       = true
 
+  snap_start {
+    apply_on ="PublishedVersions"
+  }
+
   environment {
     variables = {
       IS_LOCAL    = "false"
