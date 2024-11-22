@@ -26,6 +26,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+#      - name: Install Docker Slim
+#        run: |
+#          wget https://downloads.dockerslim.com/releases/1.40.1/dist_linux.tar.gz
+#          tar -xvf dist_linux.tar.gz
+#          sudo mv dist_linux/* /usr/local/bin
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:

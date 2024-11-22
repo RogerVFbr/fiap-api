@@ -38,7 +38,9 @@ jobs:
 
     - name: Install Docker Slim
       run: |
-        curl -sL https://raw.githubusercontent.com/slimtoolkit/slim/main/scripts/install-slim.sh | sudo bash
+        wget https://downloads.dockerslim.com/releases/1.40.1/dist_linux.tar.gz
+        tar -xvf dist_linux.tar.gz 
+        sudo mv dist_linux/* /usr/local/bin
 
     - name: Terraform Init
       run: terraform init -backend-config="key=$APPLICATON_NAME-${{ steps.extract_branch.outputs.branch }}.tfstate"
