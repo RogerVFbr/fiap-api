@@ -1,6 +1,7 @@
 locals {
   ecr_repository_name = "fiap-repo-${var.environment}"
   ecr_image_tag       = "latest"
+  ecr_slim_image_tag  = "slim"
   app_dir             = "../app"
 }
 
@@ -56,10 +57,10 @@ resource "null_resource" "ecr_image" {
       echo "Building image ..."
       docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
       echo "Slim build ..."
-      slim build --http-probe=false --tag ${aws_ecr_repository.repo.repository_url}.slim:${local.ecr_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
+      slim build --http-probe=false --tag ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
       docker image ls
       echo "Pushing image ..."
-      docker push ${aws_ecr_repository.repo.repository_url}.slim:${local.ecr_image_tag}
+      docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag}
       EOF
   }
 }
@@ -69,5 +70,5 @@ data "aws_ecr_image" "lambda_image" {
     null_resource.ecr_image
   ]
   repository_name = local.ecr_repository_name
-  image_tag       = local.ecr_image_tag
+  image_tag       = local.ecr_slim_image_tag
 }
