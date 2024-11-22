@@ -53,9 +53,12 @@ resource "null_resource" "ecr_image" {
     command = <<EOF
       aws ecr get-login-password --region ${local.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com
       cd ${local.app_dir}
+      echo "Building image ..."
       docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
-      slim build ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
+      echo "Slim build ..."
+      slim build --tag ${aws_ecr_repository.repo.repository_url}.slim:${local.ecr_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
       docker image ls
+      echo "Pushing image ..."
       docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
       EOF
   }
