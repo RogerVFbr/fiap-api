@@ -28,6 +28,7 @@ resource "aws_lambda_function" "fiap_api" {
       IS_LOCAL    = "false"
       ENVIRONMENT = var.environment
       BUCKET_NAME = "${var.bucket_name}-${var.environment}"
+      AWS_LWA_ASYNC_INIT = "true"
     }
   }
 }
