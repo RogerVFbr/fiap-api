@@ -26,6 +26,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Echo Versions
+      run: | 
+        docker --version
+        python --version
+        aws --version
+
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
