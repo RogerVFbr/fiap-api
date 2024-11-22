@@ -8,4 +8,3 @@ RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://dow
 
 CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
 
-
