@@ -5,7 +5,6 @@ from di_container import DiContainer
 from models.inference_request_schema import InferenceRequestSchema
 from models.inference_request_schema import InferenceRequestQuerySchema
 from models.inference_response_schema import InferenceResponseSchema
-from models.producao_response_schema import ProducaoResponseSchema
 
 from services.inference_service import InferenceService
 
