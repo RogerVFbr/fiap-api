@@ -45,12 +45,6 @@ jobs:
 
     - name: Install Docker Slim
       run: |
-        wget https://downloads.dockerslim.com/releases/1.40.1/dist_linux.tar.gz
-        tar -xvf dist_linux.tar.gz
-        sudo mv dist_linux/* /usr/local/bin
-
-    - name: Install Docker Slim
-      run: |
         sudo apt update
         sudo apt install curl
         curl --version

@@ -42,27 +42,27 @@ resource "null_resource" "ecr_image" {
     src_hash = data.archive_file.init.output_sha
   }
 
-  # provisioner "local-exec" {
-  #   command = <<EOF
-  #     aws ecr get-login-password --region ${local.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com
-  #     cd ${local.app_dir}
-  #     docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
-  #     docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
-  #     EOF
-  # }
-
   provisioner "local-exec" {
     command = <<EOF
       aws ecr get-login-password --region ${local.region} | docker login --username AWS --password-stdin ${local.account_id}.dkr.ecr.${local.region}.amazonaws.com
       cd ${local.app_dir}
-      echo "Building image ..."
+      echo ""
+      echo "+====================+"
+      echo "| Building image ... |"
+      echo "+====================+"
+      echo ""
       docker build -t ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
       # echo "Slim build ..."
       # slim build --show-clogs --show-blogs --http-probe-cmd=GET:/warmup --include-workdir=true --include-path /usr/local --tag ${aws_ecr_repository.repo.repository_url}:${local.ecr_slim_image_tag} ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
-      slim xray ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
-      python -m json.tool slim.report.json
+      # slim xray ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag} .
+      # python -m json.tool slim.report.json
+      # cat slim.report.json | python -c 'import sys,json;data=json.loads(sys.stdin.read()); print data["test"]'
       # docker image ls
-      echo "Pushing image ..."
+      echo ""
+      echo "+====================+"
+      echo "| Pushing image ...  |"
+      echo "+====================+"
+      echo ""
       docker push ${aws_ecr_repository.repo.repository_url}:${local.ecr_image_tag}
       EOF
   }
