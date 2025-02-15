@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_smorest import Api
 
-from controllers.inference_controllers import inference_controller
-from controllers.embrapa_controllers import embrapa_controller
-from di_container import DiContainer
+from app.controllers.inference_controllers import inference_controller
+from app.controllers.embrapa_controllers import embrapa_controller
+from app.di_container import DiContainer
 
 app = Flask(__name__)
 

@@ -1,9 +1,8 @@
 import os
 import torch
 
-from insfrastructure.aws_s3_client import AwsS3Client
+from app.insfrastructure.aws_s3_client import AwsS3Client
 
-# https://stackoverflow.com/questions/59287728/saving-pytorch-model-with-no-access-to-model-class-code
 
 class InferenceRepository:
 

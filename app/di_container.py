@@ -1,15 +1,15 @@
 from dependency_injector import containers, providers
 
-from services.inference_service import InferenceService
-from insfrastructure.aws_s3_client import AwsS3Client
-from repositories.inference_repository import InferenceRepository
-from repositories.embrapa_repository import EmbrapaRepository
-from services.embrapa_service import EmbrapaService
+from app.insfrastructure.aws_s3_client import AwsS3Client
+from app.repositories.embrapa_repository import EmbrapaRepository
+from app.repositories.inference_repository import InferenceRepository
+from app.services.embrapa_service import EmbrapaService
+from app.services.inference_service import InferenceService
 
 
 class DiContainer(containers.DeclarativeContainer):
 
-    wiring_config = containers.WiringConfiguration(packages=["controllers"])
+    wiring_config = containers.WiringConfiguration(packages=["app.controllers"])
 
     aws_s3_client = providers.Factory(AwsS3Client)
 

@@ -1,6 +1,6 @@
 from typing import List
 
-from repositories.embrapa_repository import EmbrapaRepository
+from app.repositories.embrapa_repository import EmbrapaRepository
 
 
 class EmbrapaService:

@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from repositories.inference_repository import InferenceRepository
+from app.repositories.inference_repository import InferenceRepository
 
 
 class InferenceService:

@@ -1,12 +1,12 @@
 from dependency_injector.wiring import inject, Provide
 from flask_smorest import Blueprint
 
-from di_container import DiContainer
-from models.inference_request_schema import InferenceRequestSchema
-from models.inference_request_schema import InferenceRequestQuerySchema
-from models.inference_response_schema import InferenceResponseSchema
+from app.di_container import DiContainer
+from app.models.inference_request_schema import InferenceRequestSchema
+from app.models.inference_request_schema import InferenceRequestQuerySchema
+from app.models.inference_response_schema import InferenceResponseSchema
 
-from services.inference_service import InferenceService
+from app.services.inference_service import InferenceService
 
 inference_controller = Blueprint("InferenceController", __name__, description="Inference API")
 
