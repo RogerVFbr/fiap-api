@@ -1,13 +1,13 @@
 from dependency_injector.wiring import inject, Provide
 from flask_smorest import Blueprint
 
-from di_container import DiContainer
-from models.comercializacao_response_schema import ComercializacaoResponseSchema
-from models.exportacao_response_schema import ExportacaoResponseSchema
-from models.importacao_response_schema import ImportacaoResponseSchema
-from models.processamento_response_schema import ProcessamentoResponseSchema
-from models.producao_response_schema import ProducaoResponseSchema
-from services.embrapa_service import EmbrapaService
+from app.crosscutting.di_container import DiContainer
+from app.embrapa_proxy.schemas.comercializacao_response_schema import ComercializacaoResponseSchema
+from app.embrapa_proxy.schemas.exportacao_response_schema import ExportacaoResponseSchema
+from app.embrapa_proxy.schemas.importacao_response_schema import ImportacaoResponseSchema
+from app.embrapa_proxy.schemas.processamento_response_schema import ProcessamentoResponseSchema
+from app.embrapa_proxy.schemas.producao_response_schema import ProducaoResponseSchema
+from app.embrapa_proxy.embrapa_service import EmbrapaService
 
 embrapa_controller = Blueprint("EmbrapaController", __name__, description="Embrapa API")
 

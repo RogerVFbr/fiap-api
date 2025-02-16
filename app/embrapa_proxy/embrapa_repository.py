@@ -1,9 +1,16 @@
 import pandas as pd
 from functools import lru_cache
+import os
 
 
 # noinspection PyBroadException
 class EmbrapaRepository:
+
+    BASE_PATH = os.path.join(os.getcwd(), 'app', 'embrapa_proxy', 'data')
+
+    PRODUCAO_FILE_PATH = os.path.join(BASE_PATH, 'producao.csv')
+    PROCESSAMENTO_FILE_PATH = os.path.join(BASE_PATH, 'processamento.csv')
+    COMERCIALIZACAO_FILE_PATH = os.path.join(BASE_PATH, 'comercializacao.csv')
 
     def __init__(self):
         pd.set_option("display.max_columns", 15)
@@ -12,17 +19,17 @@ class EmbrapaRepository:
 
     @lru_cache(maxsize=None)
     def get_all_producao(self):
-        df = pd.read_csv('data/producao.csv', sep=";")
+        df = pd.read_csv(self.PRODUCAO_FILE_PATH, sep=";")
         return self.__parse_df_as_dict(df)
 
     @lru_cache(maxsize=None)
     def get_all_processamento(self):
-        df = pd.read_csv('data/processamento.csv', sep="\\s+", usecols=[*range(56)])
+        df = pd.read_csv(self.PROCESSAMENTO_FILE_PATH, sep="\\s+", usecols=[*range(56)])
         return self.__parse_df_as_dict(df)
 
     @lru_cache(maxsize=None)
     def get_all_comercializacao(self):
-        df = pd.read_csv('data/comercializacao.csv', sep=";", header=None)
+        df = pd.read_csv(self.COMERCIALIZACAO_FILE_PATH, sep=";", header=None)
         columns_names = ["id", "produto_discard", "produto"]
         years = [str(x) for x in range(1970, 2023, 1)]
         columns_names += years
@@ -33,30 +40,8 @@ class EmbrapaRepository:
 
     @lru_cache(maxsize=None)
     def get_all_importacao(self):
-        dfs = []
-
-        df_mesa = pd.read_csv('data/importacao_vinhos_de_mesa.csv', sep=";")
-        df_mesa['Categoria'] = 'Vinhos de Mesa'
-        dfs.append(df_mesa)
-
-        df_espumantes = pd.read_csv('data/importacao_espumantes.csv', sep=";")
-        df_espumantes['Categoria'] = 'Espumantes'
-        dfs.append(df_espumantes)
-
-        df_frescas = pd.read_csv('data/importacao_frescas.csv', sep=";")
-        df_frescas['Categoria'] = 'Uvas Frescas'
-        dfs.append(df_frescas)
-
-        df_passas = pd.read_csv('data/importacao_passas.csv', sep=";")
-        df_passas['Categoria'] = 'Uvas Passas'
-        dfs.append(df_passas)
-
-        df_suco = pd.read_csv('data/importacao_suco.csv', sep=";")
-        df_suco['Categoria'] = 'Suco de Uva'
-        df_suco.rename(columns={'2021.2': '2022', '2021.3': '2022.1'}, inplace=True)
-        dfs.append(df_suco)
-
-        df = pd.concat(dfs, ignore_index=True)
+        files = [f for f in os.listdir(self.BASE_PATH) if f.startswith('importacao') and f.endswith('.csv')]
+        df = pd.concat([pd.read_csv(os.path.join(self.BASE_PATH, f), sep=";") for f in files])
         df.rename(columns={'Id': 'id', 'Categoria': 'categoria', 'País': 'pais'}, inplace=True)
 
         df_qtd = df.drop(df.filter(regex='\\.1').columns, axis=1)
@@ -73,25 +58,8 @@ class EmbrapaRepository:
 
     @lru_cache(maxsize=None)
     def get_all_exportacao(self):
-        dfs = []
-
-        df_mesa = pd.read_csv('data/exportacao_vinhos_de_mesa.csv', sep=";")
-        df_mesa['Categoria'] = 'Vinhos de Mesa'
-        dfs.append(df_mesa)
-
-        df_espumantes = pd.read_csv('data/exportacao_espumantes.csv', sep=";")
-        df_espumantes['Categoria'] = 'Espumantes'
-        dfs.append(df_espumantes)
-
-        df_frescas = pd.read_csv('data/exportacao_uva.csv', sep=";")
-        df_frescas['Categoria'] = 'Uvas Frescas'
-        dfs.append(df_frescas)
-
-        df_suco = pd.read_csv('data/exportacao_suco.csv', sep=";")
-        df_suco['Categoria'] = 'Suco de Uva'
-        dfs.append(df_suco)
-
-        df = pd.concat(dfs, ignore_index=True)
+        files = [f for f in os.listdir(self.BASE_PATH) if f.startswith('exportacao') and f.endswith('.csv')]
+        df = pd.concat([pd.read_csv(os.path.join(self.BASE_PATH, f), sep=";") for f in files])
         df.rename(columns={'Id': 'id', 'Categoria': 'categoria', 'País': 'pais'}, inplace=True)
 
         df_qtd = df.drop(df.filter(regex='\\.1').columns, axis=1)
@@ -107,10 +75,6 @@ class EmbrapaRepository:
         return [{**x[0], **x[1]} for x in zip(data_qtd, data_vlr)]
 
     def __parse_df_as_dict(self, df: pd.DataFrame) -> dict:
-        # print(df.columns)
-        # print(len(df.columns))
-        # print(df.head())
-
         data_raw = df.to_dict("records")
         data = []
 
