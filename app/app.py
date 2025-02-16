@@ -1,5 +1,9 @@
 import sys
+import os
 
+print("CWD")
+print(os.getcwd())
+print("PATHS")
 for i in sys.path:
     print(i)
 
