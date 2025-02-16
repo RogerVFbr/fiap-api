@@ -1,17 +1,3 @@
-#FROM public.ecr.aws/docker/library/python:3.11.6-slim
-#COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.1 /lambda-adapter /opt/extensions/lambda-adapter
-#WORKDIR /var/task
-#COPY . ./
-#
-#RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu && \
-#    rm -rf /var/lib/apt/lists/*
-#
-## Remover
-##EXPOSE 8080
-#
-#CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
-
-
 # Stage 1: Builder
 FROM public.ecr.aws/docker/library/python:3.11.6-slim AS builder
 
