@@ -22,17 +22,11 @@ COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
-COPY . .
+COPY . /var/task/app
 
 # Clean up unnecessary files to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
-#RUN cd ..
+CMD ["sh", "-c", "echo 'Starting application...' && ls && gunicorn -b=:8080 -w=1 app.app:app"]
 
-#RUN #touch app/__init__.py
-#RUN cd app
-
-#CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
-#CMD ["gunicorn", "-b=:8080", "-w=1", "app.app:app"]
-CMD ["cd app && gunicorn", "-b=:8080", "-w=1", "app.app:app"]
 
