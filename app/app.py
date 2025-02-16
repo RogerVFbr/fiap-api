@@ -1,3 +1,8 @@
+import sys
+
+for i in sys.path:
+    print(i)
+
 from flask import Flask
 from flask_smorest import Api
 import polars as pl
