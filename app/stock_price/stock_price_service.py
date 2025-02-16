@@ -1,14 +1,14 @@
 import torch
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
-from app.repositories.inference_repository import InferenceRepository
+from app.stock_price.stock_price_repository import StockPriceRepository
 
 
-class InferenceService:
+class StockPriceService:
 
     SCALER = MinMaxScaler()
 
-    def __init__(self, repo: InferenceRepository):
+    def __init__(self, repo: StockPriceRepository):
         self.repo = repo
 
     def infer(self, model_name, model_id, input_data: list[float]):

@@ -1,10 +1,10 @@
 import os
 import torch
 
-from app.insfrastructure.aws_s3_client import AwsS3Client
+from app.crosscutting.aws_s3_client import AwsS3Client
 
 
-class InferenceRepository:
+class StockPriceRepository:
 
     DATA = {}
     BUCKET_NAME = os.getenv("BUCKET_NAME")
@@ -18,7 +18,7 @@ class InferenceRepository:
         if full_name in self.DATA:
             return self.DATA[full_name]
 
-        model_serialized = self.client.get_object_body_as_bytes(self.BUCKET_NAME, f"models/{full_name}.pth")
+        model_serialized = self.client.get_object_body_as_bytes_io(self.BUCKET_NAME, f"models/{full_name}.pth")
         model = torch.jit.load(model_serialized)
         self.DATA[full_name] = model
         return self.DATA[full_name]

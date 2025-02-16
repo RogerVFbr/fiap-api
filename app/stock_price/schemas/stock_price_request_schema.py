@@ -1,9 +1,9 @@
 from marshmallow import Schema, fields
 
 
-class InferenceRequestSchema(Schema):
+class StockPriceRequestSchema(Schema):
     data = fields.List(fields.Float())
 
-class InferenceRequestQuerySchema(Schema):
+class StockPriceRequestQuerySchema(Schema):
     name = fields.Str()
     id = fields.Str()
