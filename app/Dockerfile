@@ -27,7 +27,9 @@ COPY . .
 # Clean up unnecessary files to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
-RUN cd ..
+#RUN cd ..
+
+RUN touch app/__init__.py
 
 #CMD ["gunicorn", "-b=:8080", "-w=1", "app:app"]
 CMD ["gunicorn", "-b=:8080", "-w=1", "app.app:app"]
