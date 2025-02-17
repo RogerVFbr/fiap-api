@@ -1,7 +1,6 @@
 import os
 import time
 import torch
-import polars as pl
 from app.crosscutting.aws_s3_client import AwsS3Client
 
 
