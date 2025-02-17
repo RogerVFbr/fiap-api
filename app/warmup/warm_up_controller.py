@@ -5,5 +5,5 @@ warm_up_controller = Blueprint("WarmUpController", __name__, description="Warm U
 @warm_up_controller.route("/warmup")
 @warm_up_controller.response(200)
 def get_warmup():
-    print("Warm Up endpoint called.")
+    print("Warm Up endpoint called.", flush=True)
     return "Warm Up endpoint executed."
