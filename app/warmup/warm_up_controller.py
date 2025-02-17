@@ -6,4 +6,4 @@ warm_up_controller = Blueprint("WarmUpController", __name__, description="Warm U
 @warm_up_controller.response(200)
 def get_warmup():
     print("Warm Up endpoint called.")
-    return ""
+    return "Warm Up endpoint executed."

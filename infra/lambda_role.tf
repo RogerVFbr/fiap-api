@@ -102,39 +102,3 @@ resource "aws_iam_role_policy_attachment" "parameter_store" {
   role       = aws_iam_role.fiap_api.name
   policy_arn = aws_iam_policy.lambda_parameter_store.arn
 }
-
-#resource "aws_iam_policy" "lambda_sns" {
-#  name        = "lambda_sns_${var.environment}"
-#  path        = "/"
-#  description = "IAM policy for accessing SNS from a lambda"
-#
-#  policy = <<EOF
-#{
-#    "Version": "2012-10-17",
-#    "Statement": [
-#        {
-#            "Effect": "Allow",
-#            "Action": [
-#              "sns:Publish",
-#              "sns:Subscribe",
-#              "sns:CreateTopic",
-#              "sns:GetTopicAttributes",
-#              "sns:SetTopicAttributes",
-#              "sns:TagResource",
-#              "sns:UntagResource",
-#              "sns:ListTagsForResource",
-#              "sns:ListSubscriptionsByTopic"
-#            ],
-#            "Resource": [
-#              "arn:aws:sns:${local.region}:${local.account_id}:*"
-#            ]
-#        }
-#    ]
-#}
-#EOF
-#}
-#
-#resource "aws_iam_role_policy_attachment" "sns" {
-#  role       = aws_iam_role.fiap_api.name
-#  policy_arn = aws_iam_policy.lambda_sns.arn
-#}
