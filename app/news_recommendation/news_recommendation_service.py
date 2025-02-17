@@ -108,7 +108,3 @@ class NewsRecommendationService:
         outputs = model(features)
         _, predicted = torch.max(outputs, 1)
         return predicted.item()
-
-    def __select_news(self, clusters: list[int]):
-        pass
-

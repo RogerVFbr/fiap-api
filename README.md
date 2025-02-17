@@ -34,3 +34,4 @@ da solução possui suas definições individuais.
 * **Vídeo mostrando e explicando todo o funcionamento da APl.** Em arquivos anexos na entrega do trabalho.
 
 
+lsof -ti :8080 | xargs kill -9

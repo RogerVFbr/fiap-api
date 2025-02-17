@@ -27,6 +27,6 @@ COPY . /var/task/app
 # Clean up unnecessary files to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
 
-CMD ["sh", "-c", "echo 'Starting application...' && ls && gunicorn -b=:8080 -w=1 app.app:app"]
+CMD ["sh", "-c", "gunicorn -b=:8080 -w=1 app.app:app"]
 
 
