@@ -102,7 +102,7 @@ class NewsRecommendationService:
         return index_sum / (viewed_at_weight + scroll_percentage_weight + time_on_page_weight + page_visits_count_weight)
 
     def __infer_clusters(self, features, model):
-        features = np.array([v for _, v in features.items()])  # Convert to numpy array
+        features = np.array([v for _, v in features.items()])
         features = torch.from_numpy(features).float()
         features = features.unsqueeze(0)
         outputs = model(features)
