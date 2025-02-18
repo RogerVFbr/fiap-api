@@ -25,6 +25,7 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY . /var/task/app
 
 ENV PYTHONUNBUFFERED=TRUE
+ENV TZ=America/Sao_Paulo
 
 # Clean up unnecessary files to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ~/.cache
