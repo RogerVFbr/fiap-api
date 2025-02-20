@@ -1,4 +1,4 @@
-# News Recommenaation System: Inference API
+# News Recommendation System: Inference API
 Este repositório contém a implementação de uma API para inferência de um modelo de recomendação de notícias.
 
 ---
